@@ -1,22 +1,20 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Axis Assistant",
+    page_title="Axis Wallet Assistant",
     page_icon="📋",
-    layout="wide"
+    layout="centered"
 )
 
 st.title("📋 Axis Wallet Assistant")
 
-st.markdown("---")
+st.write("أدخل بيانات العميل")
 
 name = st.text_input("الاسم بالكامل")
 
 national_id = st.text_input("الرقم القومي")
 
 birth_place = st.text_input("محل الميلاد")
-
-qualification = st.text_input("المؤهل")
 
 job = st.text_input("المهنة")
 
@@ -41,14 +39,6 @@ if st.button("تجهيز الاستمارة"):
         workplace = "شخص درجة أولى"
         income_source = "أحد أقارب الدرجة الأولى"
 
-    elif "بكالوريوس" in job:
-        workplace = "شخص درجة أولى"
-        income_source = "أحد أقارب الدرجة الأولى"
-
-    elif "ليسانس" in job:
-        workplace = "شخص درجة أولى"
-        income_source = "أحد أقارب الدرجة الأولى"
-
     elif job in [
         "عامل",
         "سائق",
@@ -62,36 +52,33 @@ if st.button("تجهيز الاستمارة"):
         workplace = job
         income_source = job
 
-    st.success("تم تجهيز الاستمارة")
+    st.success("تم تجهيز البيانات")
 
-    st.markdown("## 📄 الاستمارة النهائية")
+    st.markdown("## الاستمارة")
 
     st.text_area(
-        "",
+        "الناتج",
         value=f"""
-الاسم : {name}
+الاسم: {name}
 
-الرقم القومي : {national_id}
+الرقم القومي: {national_id}
 
-محل الميلاد : {birth_place}
+محل الميلاد: {birth_place}
 
-المؤهل : {qualification}
+المهنة: {job}
 
-المهنة : {job}
+جهة العمل: {workplace}
 
-جهة العمل : {workplace}
-
-مصدر الدخل : {income_source}
+مصدر الدخل: {income_source}
 """,
-        height=350
+        height=250
     )
 
-    st.markdown("---")
+    st.markdown("### ملخص")
 
-    st.write("✅ الاسم:", name)
-    st.write("✅ الرقم القومي:", national_id)
-    st.write("✅ محل الميلاد:", birth_place)
-    st.write("✅ المؤهل:", qualification)
-    st.write("✅ المهنة:", job)
-    st.write("✅ جهة العمل:", workplace)
-    st.write("✅ مصدر الدخل:", income_source)
+    st.write("الاسم:", name)
+    st.write("الرقم القومي:", national_id)
+    st.write("محل الميلاد:", birth_place)
+    st.write("المهنة:", job)
+    st.write("جهة العمل:", workplace)
+    st.write("مصدر الدخل:", income_source)
