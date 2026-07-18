@@ -17,7 +17,7 @@ birth_place = st.text_input("محل الميلاد")
 job = st.text_input("المهنة")
 
 company_name = st.text_input(
-    "جهة العمل (اتركها فارغة إذا غير موجودة)"
+    "جهة العمل (اتركها فارغة إذا لم تكن موجودة)"
 )
 
 age = st.number_input(
@@ -32,7 +32,7 @@ if st.button("تجهيز الاستمارة"):
     final_job = job
 
     # بالمعاش
-    if age >= 60 and "بالمعاش" in job:
+    if "بالمعاش" in job:
 
         final_job = job.replace("بالمعاش", "").strip()
 
@@ -40,7 +40,7 @@ if st.button("تجهيز الاستمارة"):
         income_source = "معاش"
 
     # ربة منزل
-    elif job == "ربة منزل":
+    elif job.strip() == "ربة منزل":
 
         workplace = "شخص درجة أولى"
         income_source = "أحد أقارب الدرجة الأولى"
@@ -57,7 +57,7 @@ if st.button("تجهيز الاستمارة"):
         income_source = "أحد أقارب الدرجة الأولى"
 
     # الأعمال الحرة
-    elif job in [
+    elif job.strip() in [
         "عامل",
         "عامل زراعي",
         "فلاح",
@@ -71,18 +71,19 @@ if st.button("تجهيز الاستمارة"):
         workplace = "عمل حر"
         income_source = "عمل حر"
 
-    # فوق 60 ومفيش جهة عمل
-    elif age >= 60 and company_name.strip() == "":
-
-        workplace = "عمل حر"
-        income_source = "عمل حر"
-
     # وظيفة ومعها جهة عمل
     elif company_name.strip() != "":
 
         workplace = company_name
         income_source = company_name
 
+    # أكبر من 60 سنة ومفيش جهة عمل
+    elif age >= 60:
+
+        workplace = "عمل حر"
+        income_source = "عمل حر"
+
+    # الباقي
     else:
 
         workplace = "عمل حر"
