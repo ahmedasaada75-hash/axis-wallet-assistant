@@ -1,42 +1,94 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Axis Wallet Assistant",
-    page_icon="📋",
-    layout="wide"
+st.set_page_config(layout="wide")
+
+page = st.sidebar.radio(
+    "القائمة",
+    [
+        "تحليل العميل",
+        "تعليمات Axis",
+        "العملاء عالية المخاطر"
+    ]
 )
 
-st.title("📋 Axis Wallet Assistant")
 
-st.subheader("بيانات العميل")
+# =====================
+# صفحة التحليل
+# =====================
+if page == "تحليل العميل":
 
-name = st.text_input("الاسم بالكامل")
+    st.title("📋 Axis Wallet Assistant")
 
-national_id = st.text_input("الرقم القومي")
+    name = st.text_input("الاسم")
 
-job = st.text_input("المهنة")
+    national_id = st.text_input("الرقم القومي")
 
-age = st.number_input(
-    "السن",
-    min_value=1,
-    max_value=120,
-    value=30
-)
+    job = st.text_input("المهنة")
 
-if st.button("تحليل العميل"):
+    age = st.number_input("السن", 1, 120)
 
-    if age >= 60:
-        workplace = "معاش"
+    if st.button("تحليل العميل"):
 
-    elif job == "ربة منزل":
-        workplace = "شخص درجة أولى"
+        if age >= 60:
+            workplace = "معاش"
 
-    elif job in ["عامل", "سائق", "فلاح"]:
-        workplace = "حر"
+        elif job == "ربة منزل":
+            workplace = "شخص درجة أولى"
 
-    else:
-        workplace = job
+        elif job in ["عامل", "سائق", "فلاح"]:
+            workplace = "حر"
 
-    st.success("تم تحليل البيانات")
+        else:
+            workplace = job
 
-    st.write("جهة العمل:", workplace)
+        st.success(f"جهة العمل: {workplace}")
+
+
+# =====================
+# صفحة التعليمات
+# =====================
+elif page == "تعليمات Axis":
+
+    st.title("📚 تعليمات Axis")
+
+    st.markdown("""
+### مصدر الدخل
+
+- كبار السن بدون وظيفة = معاش
+- ربة منزل = أحد أقارب الدرجة الأولى
+- طالب = أحد أقارب الدرجة الأولى
+- خريج = أحد أقارب الدرجة الأولى
+
+### الجنسية
+
+- وجود 88 في الرقم القومي = جنسية أخرى
+
+### محل الميلاد
+
+- يكتب اسم المحافظة فقط
+""")
+
+
+# =====================
+# صفحة المخاطر
+# =====================
+elif page == "العملاء عالية المخاطر":
+
+    st.title("⚠ العملاء عالية المخاطر")
+
+    st.markdown("""
+- جيش
+- عسكري
+- ضابط
+- قاضي
+- محام
+- رجل دين
+- سياسي
+- دبلوماسي
+- تاجر ذهب
+- ألماس
+- مجوهرات
+- كازينو
+- قمار
+- وكيل عقارات
+""")
