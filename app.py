@@ -8,8 +8,6 @@ st.set_page_config(
 
 st.title("📋 Axis Wallet Assistant")
 
-st.write("أدخل بيانات العميل")
-
 name = st.text_input("الاسم بالكامل")
 
 national_id = st.text_input("الرقم القومي")
@@ -17,6 +15,10 @@ national_id = st.text_input("الرقم القومي")
 birth_place = st.text_input("محل الميلاد")
 
 job = st.text_input("المهنة")
+
+company_name = st.text_input(
+    "جهة العمل (اتركها فارغة إذا غير موجودة)"
+)
 
 age = st.number_input(
     "السن",
@@ -27,37 +29,69 @@ age = st.number_input(
 
 if st.button("تجهيز الاستمارة"):
 
-    if age >= 60:
+    final_job = job
+
+    # بالمعاش
+    if age >= 60 and "بالمعاش" in job:
+
+        final_job = job.replace("بالمعاش", "").strip()
+
         workplace = "معاش"
         income_source = "معاش"
 
+    # ربة منزل
     elif job == "ربة منزل":
+
         workplace = "شخص درجة أولى"
         income_source = "أحد أقارب الدرجة الأولى"
 
-    elif job == "طالب":
+    # حاصل على مؤهل فقط
+    elif (
+        "بكالوريوس" in job
+        or "ليسانس" in job
+        or "دبلوم" in job
+        or "حاصل على مؤهل" in job
+    ):
+
         workplace = "شخص درجة أولى"
         income_source = "أحد أقارب الدرجة الأولى"
 
+    # الأعمال الحرة
     elif job in [
         "عامل",
-        "سائق",
+        "عامل زراعي",
         "فلاح",
-        "مزارع"
+        "مزارع",
+        "نجار",
+        "سباك",
+        "حداد",
+        "سائق"
     ]:
-        workplace = "حر"
-        income_source = "حر"
+
+        workplace = "عمل حر"
+        income_source = "عمل حر"
+
+    # فوق 60 ومفيش جهة عمل
+    elif age >= 60 and company_name.strip() == "":
+
+        workplace = "عمل حر"
+        income_source = "عمل حر"
+
+    # وظيفة ومعها جهة عمل
+    elif company_name.strip() != "":
+
+        workplace = company_name
+        income_source = company_name
 
     else:
-        workplace = job
-        income_source = job
 
-    st.success("تم تجهيز البيانات")
+        workplace = "عمل حر"
+        income_source = "عمل حر"
 
-    st.markdown("## الاستمارة")
+    st.success("✅ تم تجهيز البيانات")
 
     st.text_area(
-        "الناتج",
+        "الاستمارة النهائية",
         value=f"""
 الاسم: {name}
 
@@ -65,20 +99,11 @@ if st.button("تجهيز الاستمارة"):
 
 محل الميلاد: {birth_place}
 
-المهنة: {job}
+المهنة: {final_job}
 
 جهة العمل: {workplace}
 
 مصدر الدخل: {income_source}
 """,
-        height=250
+        height=300
     )
-
-    st.markdown("### ملخص")
-
-    st.write("الاسم:", name)
-    st.write("الرقم القومي:", national_id)
-    st.write("محل الميلاد:", birth_place)
-    st.write("المهنة:", job)
-    st.write("جهة العمل:", workplace)
-    st.write("مصدر الدخل:", income_source)
