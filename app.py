@@ -4,10 +4,12 @@ st.set_page_config(layout="wide")
 
 page = st.sidebar.radio(
     "القائمة",
-    [
-        "تحليل العميل",
-        "تعليمات Axis",
-        "العملاء عالية المخاطر"
+    [[
+    "تحليل العميل",
+    "إنشاء الاستمارة",
+    "تعليمات Axis",
+    "العملاء عالية المخاطر"
+]
     ]
 )
 
@@ -46,7 +48,43 @@ if page == "تحليل العميل":
 
 # =====================
 # صفحة التعليمات
-# =====================
+# =====================elif page == "إنشاء الاستمارة":
+
+    from PIL import Image, ImageDraw
+
+    st.title("📄 إنشاء الاستمارة")
+
+    name = st.text_input("الاسم")
+
+    national_id = st.text_input("الرقم القومي")
+
+    job = st.text_input("المهنة")
+
+    mobile = st.text_input("رقم الموبايل")
+
+    if st.button("إنشاء الاستمارة"):
+
+        image = Image.open("Designer (1).png")
+
+        draw = ImageDraw.Draw(image)
+
+        draw.text((300,150), name, fill="black")
+        draw.text((300,190), national_id, fill="black")
+        draw.text((300,230), job, fill="black")
+        draw.text((300,270), mobile, fill="black")
+
+        image.save("result.png")
+
+        st.image("result.png")
+
+        with open("result.png", "rb") as file:
+
+            st.download_button(
+                "تحميل الاستمارة",
+                file,
+                "axis_form.png"
+            )
+
 elif page == "تعليمات Axis":
 
     st.title("📚 تعليمات Axis")
